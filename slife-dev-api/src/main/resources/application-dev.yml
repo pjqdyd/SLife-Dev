@@ -1,0 +1,31 @@
+#### dev开发环境配置
+
+#server相关配置
+server:
+  port: 8081
+
+#mysql数据库,jpa,druid配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_slife?characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+        initial-size: 1                           # 初始化大小，最小，最大
+        min-idle: 1
+        max-active: 20
+        max-wait: 60000                           # 配置获取连接等待超时的时间
+        time-between-eviction-runs-millis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        min-evictable-idle-time-millis: 300000    # 配置一个连接在池中最小生存的时间，单位是毫秒
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  #文件上传配置(防止在接收文件时大小受限制)
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 50MB

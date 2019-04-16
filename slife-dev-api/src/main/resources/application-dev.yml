@@ -4,8 +4,8 @@
 server:
   port: 8081
 
-#mysql数据库,jpa,druid配置
 spring:
+  #mysql数据库,jpa,druid配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/db_slife?characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false
@@ -23,9 +23,14 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect #指定默认mysql引擎为InnoDB
   #文件上传配置(防止在接收文件时大小受限制)
   servlet:
     multipart:
       enabled: true
       max-file-size: 20MB
       max-request-size: 50MB
+logging:
+  level:
+    root: info
+

@@ -1,8 +1,10 @@
 package com.pjqdyd.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -25,7 +27,6 @@ public class User {
     /**
      * Id 主键
      */
-    @ApiModelProperty(hidden = true) //可以不填
     @Id
     private String userId;
 
@@ -42,15 +43,15 @@ public class User {
     private String nickname;
 
     /**
-     * 用户身份 0是顾客, 1是店主
+     * 用户身份 0是顾客(默认), 1是店主
      */
-    @Column(nullable = false, columnDefinition = "tinyint default 0 COMMENT '用户身份 0顾客, 1店主'")
+    @Column(columnDefinition = "tinyint default 0 COMMENT '用户身份 0顾客, 1店主'")
     private Integer idStatus;
 
     /**
      * 用户性别 1表示男, 2表示女, 0表示未设置(默认)
      */
-    @Column(nullable = false, columnDefinition = "tinyint default 0 COMMENT '性别 1男, 2女, 3未设置'")
+    @Column(columnDefinition = "tinyint default 0 COMMENT '性别 1男, 2女, 3未设置'")
     private Integer sex;
 
     /**
@@ -61,42 +62,45 @@ public class User {
     /**
      * 经度
      */
-    @Column(columnDefinition = "double(12,8)")
+    @Column(nullable = false, columnDefinition = "double(12,8) default 0")
     private Double longitude;
 
     /**
      * 纬度
      */
-    @Column(columnDefinition = "double(12,8)")
+    @Column(nullable = false, columnDefinition = "double(12,8) default 0")
     private Double latitude;
 
     /**
      * 发布动态的数量
      */
-    @Column(nullable = false, columnDefinition = "int default 0 COMMENT '发布动态的数量'")
+    @Column(columnDefinition = "int default 0 COMMENT '发布动态的数量'")
     private Integer createCounts;
 
     /**
      * 粉丝数量
      */
-    @Column(nullable = false, columnDefinition = "int default 0")
+    @Column(columnDefinition = "int default 0")
     private Integer fansCounts;
 
     /**
      * 关注数量
      */
-    @Column(nullable = false, columnDefinition = "int default 0")
+    @Column(columnDefinition = "int default 0")
     private Integer followCounts;
 
     /**
      * 获赞数
      */
-    @Column(nullable = false, columnDefinition = "int default 0 COMMENT '获赞数'")
+    @Column(columnDefinition = "int default 0 COMMENT '获赞数'")
     private Integer receiveLikeCounts;
 
     /**
      * 用户创建日期
      */
-    @Column(columnDefinition = "COMMENT '用户创建日期'")
+    @Temporal(TemporalType.DATE)
+    @CreationTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @ApiModelProperty(hidden = true) //可以不填
     private Date createDate;
 }

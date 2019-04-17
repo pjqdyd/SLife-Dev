@@ -1,9 +1,13 @@
 package com.pjqdyd.controller;
 
+import com.pjqdyd.enums.ResultEnum;
+import com.pjqdyd.exception.SLifeException;
 import com.pjqdyd.pojo.User;
+import com.pjqdyd.result.ResponseResult;
 import com.pjqdyd.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +23,7 @@ import javax.validation.Valid;
  */
 
 @Api(value = "用户相关业务接口", tags = {"用户controller层"})
+@Slf4j
 @RestController
 @RequestMapping("/slife/user")
 public class UserContorller {
@@ -34,12 +39,14 @@ public class UserContorller {
      */
     @ApiOperation(value = "保存用户信息", notes = "保存单个用户信息")
     @PostMapping("/save")
-    public User saveUser(@Valid User user, BindingResult bindingResult){
+    public ResponseResult saveUser(@Valid User user, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
-            System.out.println("保存失败");
+            log.error("[保存用户信息] 参数不正确 user={}", user);
+            throw new SLifeException(ResultEnum.PARAM_ERROR.getCode(),
+                    bindingResult.getFieldError().getDefaultMessage());
         }
-        return userService.saveUser(user);
+        return ResponseResult.success(userService.saveUser(user));
     }
 
 }

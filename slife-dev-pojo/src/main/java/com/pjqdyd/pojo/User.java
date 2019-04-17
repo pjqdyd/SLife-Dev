@@ -3,8 +3,10 @@ package com.pjqdyd.pojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**   
  * @Description:  [用户实体类]
@@ -16,6 +18,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "tb_user")
+@DynamicInsert
 @ApiModel(value = "用户对象", description = "用户信息对象")
 public class User {
 
@@ -90,4 +93,10 @@ public class User {
      */
     @Column(nullable = false, columnDefinition = "int default 0 COMMENT '获赞数'")
     private Integer receiveLikeCounts;
+
+    /**
+     * 用户创建日期
+     */
+    @Column(columnDefinition = "COMMENT '用户创建日期'")
+    private Date createDate;
 }

@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 
 @Getter
-public enum ResultEnum implements EnumCodeGetter{
+public enum ResultEnum implements EnumInfoGetter {
 
     /****** Global *****/
     SUCCESS(200, "SUCCESS"),

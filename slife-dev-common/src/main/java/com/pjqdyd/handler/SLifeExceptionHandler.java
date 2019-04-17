@@ -26,7 +26,7 @@ public class SLifeExceptionHandler {
     public ResponseResult handSLifeException(SLifeException ex){
         log.error(ex.getMessage());
         return new  ResponseResult(ex.getErrorCode(), ex.getMessage(),null);
-    }
+}
 
     /**
      * 捕获所有异常

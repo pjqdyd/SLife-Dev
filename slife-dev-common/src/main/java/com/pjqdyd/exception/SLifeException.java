@@ -26,7 +26,7 @@ public class SLifeException extends RuntimeException{
     }
 
     public Integer getErrorCode() {
-        return errorCode;
+        return this.errorCode == null ? 201 :this.errorCode;
     }
 
 }

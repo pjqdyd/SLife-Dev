@@ -8,7 +8,7 @@ import lombok.Getter;
  * @Version:      [v1.0.0]
  */
 @Getter
-public enum UserIdStatusEnum implements EnumCodeGetter{
+public enum UserIdStatusEnum{
 
     CUSTOMER(0, "顾客"),
     SHOPER(1, "店主");

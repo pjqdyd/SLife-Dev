@@ -10,4 +10,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
 public interface UserRepository extends JpaRepository<User, String> {
+
+    /**
+     * 通过openId判断用户是否存在
+     */
+    Boolean existsByOpenId(String openId);
+
+    /**
+     * 通过openId查询用户信息
+     */
+    User findByOpenId(String openId);
+
 }

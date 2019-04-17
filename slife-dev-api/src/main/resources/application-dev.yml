@@ -30,7 +30,15 @@ spring:
       enabled: true
       max-file-size: 20MB
       max-request-size: 50MB
+#配置日志级别
 logging:
   level:
     root: info
+
+#配置一些常量信息
+common:
+  slife:
+    #QQ验证用户信息的官方接口api, openid, access_token为前端用户传入, oauth_consumer_key即为QQ开放平台申请的appId
+    qqVerifyUrl: https://graph.qq.com/user/get_user_info?openid={openid}&access_token={access_token}&oauth_consumer_key={oauth_consumer_key}
+    qqAppId: 123456 #QQ开放平台申请的appId,用于验证获取用户信息权限
 

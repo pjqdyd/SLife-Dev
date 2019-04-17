@@ -44,6 +44,7 @@ public class User {
 
     /**
      * 用户身份 0是顾客(默认), 1是店主
+     *
      */
     @Column(columnDefinition = "tinyint default 0 COMMENT '用户身份 0顾客, 1店主'")
     private Integer idStatus;

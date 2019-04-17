@@ -6,3 +6,6 @@
 *.iws
 *.iml
 *.ipr
+
+test/
+target/

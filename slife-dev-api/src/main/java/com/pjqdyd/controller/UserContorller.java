@@ -39,8 +39,6 @@ public class UserContorller {
     @Autowired
     private UserService userService;
 
-    @Value("{common.}")
-
     /**
      * 用户qq登录验证
      *

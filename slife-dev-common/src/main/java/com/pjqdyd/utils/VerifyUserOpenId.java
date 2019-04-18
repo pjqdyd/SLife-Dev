@@ -22,12 +22,12 @@ import java.util.Map;
 public class VerifyUserOpenId {
 
     /**
-     * 通过http请求验证用户信息的方法
+     * 通过http请求验证用户信息的方法, 参考QQ官方文档: http://wiki.connect.qq.com/get_user_info
      * @param url 请求验证api接口的url, 后面要有参数占位符如http://abc.com/api?param1={param1}&param2={param2}
      * @param paramsMap 参数Map<String,String>,用Map集合装载参数,如map.put("param1" : "123456")
      * @return Map集合 请求api返回的response的body的内容
      */
-    public static Map<String, String> verifyByOpenId(String url, Map<String,String> paramsMap){
+    public Map<String, String> verifyByOpenId(String url, Map<String,String> paramsMap){
 
         //使用spring的restTemplate来发送http请求
         RestTemplate restTemplate = new RestTemplate();

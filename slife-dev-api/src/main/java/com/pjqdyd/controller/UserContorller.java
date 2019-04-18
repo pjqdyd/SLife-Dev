@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,8 +38,6 @@ public class UserContorller {
     @Autowired
     private UserService userService;
 
-    @Value("{common.}")
-
     /**
      * 用户qq登录验证
      *
@@ -54,17 +51,26 @@ public class UserContorller {
                                 @RequestParam String access_token) {
 
         if (StringUtils.isEmpty(openId) || StringUtils.isEmpty(access_token)) {
-            log.error("登录参数不能为空 openId={} access_token={}",openId,access_token);
+            log.error("登录参数不能为空 openId={} access_token={}", openId, access_token);
             throw new SLifeException(ResultEnum.PARAM_ERROR);
-        } else if (userService.isUserExist(openId)) {//1.验证用户的openId是否已经存在数据库
+        }
+
+        User user = null;
+        if (userService.isUserExist(openId)) {//1.验证用户的openId是否已经存在数据库
             //获取数据库的用户信息,返回给前端
-            User user = userService.findUserByOpenId(openId);
+            user = userService.findUserByOpenId(openId);
+        }else {//验证和保存新用户信息
+            user = userService.verifyUserInfoAndSaveInfo(openId, access_token);
+        }
+        if (user != null){
             UserVO userVO = new UserVO();
             BeanUtils.copyProperties(user, userVO);
             return ResponseResult.success(userVO);
         }
 
-        return ResponseResult.success(null);
+        //return ResponseResult.error(ResultEnum.LOGIN_ERROR.getCode(), "登录失败"); //生产环境
+        //测试环境先模拟返回正确的用户数据
+        return ResponseResult.success(userService.findUserByOpenId("1234567890"));
     }
 
     /**

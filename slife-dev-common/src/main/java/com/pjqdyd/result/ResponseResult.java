@@ -20,14 +20,24 @@ public class ResponseResult {
     //响应的数据
     private Object data;
 
-    //成功的返回数据对象
+    //默认成功的返回数据对象
     public static ResponseResult success(Object data){
         return new ResponseResult(data);
     }
 
-    //失败的返回对象
+    //成功返回的数据对象
+    public static ResponseResult success(Integer code, Object data){
+        return new ResponseResult(code, "SUCCESS", data);
+    }
+
+    //默认失败的返回对象
     public static ResponseResult error(){
         return new ResponseResult(201,"Fail", null);
+    }
+
+    //失败的返回对象
+    public static ResponseResult error(Integer code, String message){
+        return new ResponseResult(code, message,null);
     }
 
     //默认成功的构造器

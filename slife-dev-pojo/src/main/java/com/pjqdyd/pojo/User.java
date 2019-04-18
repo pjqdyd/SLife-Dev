@@ -47,13 +47,13 @@ public class User {
      *
      */
     @Column(columnDefinition = "tinyint default 0 COMMENT '用户身份 0顾客, 1店主'")
-    private Integer idStatus;
+    private Integer idStatus = 0;
 
     /**
      * 用户性别 1表示男, 2表示女, 0表示未设置(默认)
      */
-    @Column(columnDefinition = "tinyint default 0 COMMENT '性别 1男, 2女, 3未设置'")
-    private Integer sex;
+    @Column(columnDefinition = "tinyint default 0 COMMENT '性别 1男, 2女, 0未设置'")
+    private Integer sex = 0;
 
     /**
      * 用户的头像
@@ -63,38 +63,38 @@ public class User {
     /**
      * 经度
      */
-    @Column(nullable = false, columnDefinition = "double(12,8) default 0")
-    private Double longitude;
+    @Column(columnDefinition = "double(18,14) default 0")
+    private Double longitude = 0.000;
 
     /**
      * 纬度
      */
-    @Column(nullable = false, columnDefinition = "double(12,8) default 0")
-    private Double latitude;
+    @Column(columnDefinition = "double(18,14) default 0")
+    private Double latitude = 0.000;
 
     /**
      * 发布动态的数量
      */
     @Column(columnDefinition = "int default 0 COMMENT '发布动态的数量'")
-    private Integer createCounts;
+    private Integer createCounts = 0;
 
     /**
      * 粉丝数量
      */
     @Column(columnDefinition = "int default 0")
-    private Integer fansCounts;
+    private Integer fansCounts = 0;
 
     /**
      * 关注数量
      */
     @Column(columnDefinition = "int default 0")
-    private Integer followCounts;
+    private Integer followCounts = 0;
 
     /**
      * 获赞数
      */
     @Column(columnDefinition = "int default 0 COMMENT '获赞数'")
-    private Integer receiveLikeCounts;
+    private Integer receiveLikeCounts = 0;
 
     /**
      * 用户创建日期

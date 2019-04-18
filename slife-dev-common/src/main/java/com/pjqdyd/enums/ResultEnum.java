@@ -15,6 +15,8 @@ public enum ResultEnum implements EnumInfoGetter {
     SUCCESS(200, "SUCCESS"),
     FAIL(201, "FAIL"),
     PARAM_ERROR(202, "参数错误"),
+    TYPE_CONVER_ERROR(203,"类型转换错误"),
+    LOGIN_ERROR(204,"登录错误"),
     SQL_ERROR(205, "数据库SQL异常"),
     UNKNOWN_ERROR(206, "未知错误"),
     PERMISSION_ERROR(207, "权限不足");

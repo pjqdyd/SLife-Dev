@@ -19,4 +19,7 @@ public interface UserService {
     //保存用户
     User saveUser(User user);
 
+    //通过openId和access_token来验证和保存用户信息
+    User verifyUserInfoAndSaveInfo(String openId, String access_token);
+
 }

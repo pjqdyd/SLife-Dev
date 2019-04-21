@@ -67,6 +67,13 @@ public class DownloadResource {
                     log.error("文件IO流释放关闭异常 {}", e.getMessage());
                 }
             }
+            if (inputStream != null){
+                try {
+                    inputStream.close();
+                }catch (IOException e){
+                    log.error("文件IO流关闭异常 {}", e.getMessage());
+                }
+            }
         }
         return saveFilePath + "/" + fileName;
     }

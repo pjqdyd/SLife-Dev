@@ -78,7 +78,7 @@ public class ShopDetail {
     /**
      * 营业时间
      */
-    @Column(columnDefinition = "varchar(10) COMMENT '营业时间'")
+    @Column(columnDefinition = "varchar(50) COMMENT '营业时间'")
     private String openTime;
 
     /**

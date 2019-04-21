@@ -26,7 +26,7 @@ public class ShopImage {
      * 多对一,指明要映射的实体类
      * 向ShopImage表中加入外键shopId,并将外键命名为shop_detail_id,形成一对多双向关联
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_detail_id", referencedColumnName = "shopId")
     private ShopDetail shopDetail;
 
@@ -34,5 +34,4 @@ public class ShopImage {
      * 图片路径
      */
     private String imageUrl;
-
 }

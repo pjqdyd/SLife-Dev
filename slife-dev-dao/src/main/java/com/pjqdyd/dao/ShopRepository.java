@@ -11,4 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface ShopRepository extends JpaRepository<Shop, String> {
+
+    //通过店铺id查询简要信息的方法
+    Shop findByShopId(String shopId);
+
 }

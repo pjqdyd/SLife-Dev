@@ -1,9 +1,7 @@
 package com.pjqdyd.pojo.dto;
 
-import com.mysql.cj.xdevapi.JsonArray;
 import lombok.Data;
 
-import java.util.List;
 
 /**   
  * @Description:  [店铺数据传输对象, 用于接收前端传入的店铺申请信息]
@@ -30,5 +28,5 @@ public class ShopDTO {
 
     private String openTime;
 
-    private String supportServer; //店铺支持的服务字符串数组
+    private String supportServer = ""; //店铺支持的服务字符串数组
 }

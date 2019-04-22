@@ -1,5 +1,7 @@
 package com.pjqdyd.controller;
 
+import com.pjqdyd.enums.ResultEnum;
+import com.pjqdyd.exception.SLifeException;
 import com.pjqdyd.pojo.ShopDetail;
 import com.pjqdyd.pojo.dto.ShopDTO;
 import com.pjqdyd.result.ResponseResult;
@@ -36,6 +38,12 @@ public class ShopController {
     @Autowired
     private ShopService shopService;
 
+    /**
+     * 用户申请/修改店铺接口
+     * @param shopDTO
+     * @param request
+     * @return
+     */
     @ApiOperation(value = "申请店铺", tags = "用户申请店铺接口")
     @PostMapping(value = "/applyShop", headers = "content-type=multipart/form-data")
     public ResponseResult applyShop(@ModelAttribute ShopDTO shopDTO,
@@ -48,14 +56,13 @@ public class ShopController {
         files.add(request.getFile("image3"));
         files.add(request.getFile("image4"));
 
-        ShopDetail shopDetail = shopService.findShopByApplyerId(shopDTO.getApplyerId());
-
-        if (shopDetail == null) {//如果申请者未申请过店铺就新建一个店铺并设置shopId
-            shopDetail = new ShopDetail();
-            shopDetail.setShopId(UniqueId.getNewId("s-"));
+        ShopDetail shopDetail =  new ShopDetail();
+        String shopId = shopService.findShopIdByApplyerId(shopDTO.getApplyerId());
+        if (StringUtils.isBlank(shopId)) {//如果申请者未申请过店铺就新建一个店铺并设置shopId
+            shopId = UniqueId.getNewId("s-");
         }
-
         //给店铺详情对象设置数据
+        shopDetail.setShopId(shopId);
         BeanUtils.copyProperties(shopDTO, shopDetail);
         shopDetail.setShopLatitude(Double.valueOf(shopDTO.getShopLatitude()));
         shopDetail.setShopLongitude(Double.valueOf(shopDTO.getShopLongitude()));
@@ -85,6 +92,34 @@ public class ShopController {
         }
         return ResponseResult.success(null);
     }
+
+    /**
+     * 查询店铺简要信息通过applyerId
+     * @param applyerId
+     * @return
+     */
+    @ApiOperation(value = "查询店铺简要信息", tags = "根据applyerId查询店铺简要信息接口")
+    @GetMapping("/queryShopInfo")
+    public ResponseResult queryShopInfo(@RequestParam String applyerId){
+
+        if (StringUtils.isBlank(applyerId)){
+            log.error("查询店铺简介信息, 参数为空applyerId = {}", applyerId);
+            throw new SLifeException(ResultEnum.PARAM_ERROR);
+        }
+
+        ShopDetail shopDetail = shopService.findShopByApplyerId(applyerId);
+
+        if (shopDetail != null){
+            ShopDTO shopDTO = new ShopDTO();
+            BeanUtils.copyProperties(shopDetail,shopDTO);
+            shopDTO.setShopLatitude(String.valueOf(shopDetail.getShopLatitude()));
+            shopDTO.setShopLongitude(String.valueOf(shopDetail.getShopLongitude()));
+            return ResponseResult.success(shopDTO);   //返回成功的店铺简要信息
+        }
+
+        return ResponseResult.error(201,"未找到店铺");
+    }
+
 }
 
 

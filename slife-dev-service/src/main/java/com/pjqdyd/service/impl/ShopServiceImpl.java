@@ -8,6 +8,7 @@ import com.pjqdyd.pojo.Shop;
 import com.pjqdyd.pojo.ShopDetail;
 import com.pjqdyd.pojo.ShopImage;
 import com.pjqdyd.service.ShopService;
+import com.pjqdyd.utils.DeleteFileUtil;
 import com.pjqdyd.utils.MultipartFileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -78,9 +79,8 @@ public class ShopServiceImpl implements ShopService {
 
     /**
      * 保存店铺详情的方法
-     *
      * @param shopDetail
-     * @param files      用户上传的图片文件
+     * @param files 用户上传的图片文件
      * @return
      */
     @Override
@@ -89,24 +89,30 @@ public class ShopServiceImpl implements ShopService {
 
         ShopDetail result = shopDetailRepository.save(shopDetail); //保存店铺详情
 
-        String filePath = "/shop/" + shopDetail.getApplyerId() + "/shopImage"; //店铺图片保存的相对目录
+        //先将以前的图片图片清空
+        List<ShopImage> shopImages = shopImageRepository.deleteAllByShopId(shopDetail.getShopId());
+        if(shopImages.size() > 0){
+            for (ShopImage shopImage: shopImages) {
+                DeleteFileUtil.deleteLocalFile(fileSpace + shopImage.getImageUrl());
+            }
+        }
+
+        String filePath = "/shop/" + shopDetail.getApplyerId() + "/shopImage"; //新店铺图片保存的相对目录
         //保存店铺图片到本地, saveFilePathMap保存后图片相对路径Map集合(key: "图片名", value: "图片相对路径")
         Map<String, String> saveFilePathMap = MultipartFileUtil.saveFileToLocal(files, fileSpace, filePath);
         if (saveFilePathMap.size() == 0){
             log.error("上传的图片为空 saveFilePathMap = {}", saveFilePathMap.toString());
             throw new SLifeException(201, "上传的图片为空");
         }
+
         for (String imageName : saveFilePathMap.keySet()) {
             ShopImage shopImage = new ShopImage();
+            shopImage.setShopId(shopDetail.getShopId());           //设置图片所属的店铺
             shopImage.setImageUrl(saveFilePathMap.get(imageName)); //设置图片路径
-            shopImage.setShopDetail(shopDetail);//设置图片关联的店铺详情
             shopImageRepository.save(shopImage);
         }
 
-        Shop shop = findByShopId(shopDetail.getShopId()); //保存店铺简要信息
-        if (shop == null){
-            shop = new Shop();
-        }
+        Shop shop = new Shop(); //保存店铺简要信息
         BeanUtils.copyProperties(shopDetail, shop);
         shop.setImageUrl(saveFilePathMap.get("image0")); //保存第一张图片是店铺的门面
         Shop result1 = shopRepository.save(shop);

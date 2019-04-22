@@ -4,20 +4,23 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-/**   
+/**
+ *    
+ *
  * @Description:  [店铺详情实体类]
  * @Author:       pjqdyd
  * @Version:      [v1.0.0]
- */
+ *  
+ */
 
 @Data
 @Entity
+@DynamicInsert
 @Table(name = "tb_shop_detail")
 public class ShopDetail {
 
@@ -42,8 +45,9 @@ public class ShopDetail {
     /**
      * 店铺和店铺的图片是一对多(mappedBy放弃维护外键,交给ShopImage的shopDetail管理外键; cascade级联保存、更新、删除、刷新;  fetch延迟加载)
      */
-    @OneToMany(mappedBy = "shopDetail",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ShopImage> shopImages = new HashSet<>();
+    //已弃用关联, jpa多表关联操作并不方便
+    //@OneToMany(mappedBy = "shopDetail",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //private Set<ShopImage> shopImages = new HashSet<>();
 
     /**
      * 店铺纬度
@@ -60,7 +64,7 @@ public class ShopDetail {
     /**
      * 店铺的位置
      */
-    @Column(nullable =false, length = 60)
+    @Column(nullable = false, length = 60)
     private String shopAddr;
 
     /**

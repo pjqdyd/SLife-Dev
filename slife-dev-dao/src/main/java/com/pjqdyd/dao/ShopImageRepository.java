@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 /**
  *    
  *
@@ -23,5 +25,19 @@ public interface ShopImageRepository extends JpaRepository<ShopImage, Integer> {
      */
     @Modifying
     @Query(value = "delete from tb_shop_image where shop_id=?1", nativeQuery = true)
-    void deleteAllByShopId(String shopId);
+    void removeAllByShopId(String shopId);
+
+    /**
+     * 根据店铺id删除图片的方法
+     * @param shopId
+     * @return
+     */
+    List<ShopImage> deleteAllByShopId(String shopId);
+
+    /**
+     * 通过店铺id查找所有图片的方法
+     * @param shopId
+     * @return
+     */
+    List<ShopImage> findAllByShopId(String shopId);
 }

@@ -20,15 +20,19 @@ public class ShopImage {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
+    @Column(columnDefinition = "varchar(128) not null COMMENT '图片所属的店铺id'")
+    private String shopId;
 
     /**
      * 多对一,指明要映射的实体类
      * 向ShopImage表中加入外键shopId,并将外键命名为shop_detail_id,形成一对多双向关联
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shop_detail_id", referencedColumnName = "shopId")
-    private ShopDetail shopDetail;
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "shop_detail_id", referencedColumnName = "shopId")
+    //已弃用关联
+    //private ShopDetail shopDetail;
 
     /**
      * 图片路径

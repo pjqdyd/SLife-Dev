@@ -78,9 +78,8 @@ public class ShopServiceImpl implements ShopService {
 
     /**
      * 保存店铺详情的方法
-     *
      * @param shopDetail
-     * @param files      用户上传的图片文件
+     * @param files 用户上传的图片文件
      * @return
      */
     @Override
@@ -96,17 +95,15 @@ public class ShopServiceImpl implements ShopService {
             log.error("上传的图片为空 saveFilePathMap = {}", saveFilePathMap.toString());
             throw new SLifeException(201, "上传的图片为空");
         }
+        shopImageRepository.deleteAllByShopId(shopDetail.getShopId()); //先将以前的图片图片清空
         for (String imageName : saveFilePathMap.keySet()) {
             ShopImage shopImage = new ShopImage();
+            shopImage.setShopId(shopDetail.getShopId());           //设置图片所属的店铺
             shopImage.setImageUrl(saveFilePathMap.get(imageName)); //设置图片路径
-            shopImage.setShopDetail(shopDetail);//设置图片关联的店铺详情
             shopImageRepository.save(shopImage);
         }
 
-        Shop shop = findByShopId(shopDetail.getShopId()); //保存店铺简要信息
-        if (shop == null){
-            shop = new Shop();
-        }
+        Shop shop = new Shop(); //保存店铺简要信息
         BeanUtils.copyProperties(shopDetail, shop);
         shop.setImageUrl(saveFilePathMap.get("image0")); //保存第一张图片是店铺的门面
         Shop result1 = shopRepository.save(shop);

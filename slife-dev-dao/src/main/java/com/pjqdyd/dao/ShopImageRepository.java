@@ -22,6 +22,6 @@ public interface ShopImageRepository extends JpaRepository<ShopImage, Integer> {
      * @param shopId
      */
     @Modifying
-    @Query(value = "delete from tb_shop_image where shop_detail_id=?1", nativeQuery = true)
+    @Query(value = "delete from tb_shop_image where shop_id=?1", nativeQuery = true)
     void deleteAllByShopId(String shopId);
 }

@@ -37,7 +37,7 @@ public class SLifeExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ResponseResult handException(Exception ex) {
         log.error(ex.getMessage());
-        return new ResponseResult(201,ex.getMessage(),null);
+        return new ResponseResult(201, ex.getMessage(),null);
     }
 
 }

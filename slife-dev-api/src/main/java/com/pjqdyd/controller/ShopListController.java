@@ -16,11 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**   
@@ -30,6 +28,7 @@ import java.util.List;
  */
 @Slf4j
 @Api(value = "店铺列表Controller层", tags = "查询店铺列表")
+@CrossOrigin
 @RestController
 @RequestMapping("/slife/shopList")
 public class ShopListController {
@@ -72,13 +71,15 @@ public class ShopListController {
 
         List<Shop> shopList = shopPage.getContent();
 
-        ShopItemVO shopItemVO = new ShopItemVO();
+        List<ShopItemVO> shopItemVOS = new ArrayList<>(); //用来存放返回给前端的ShopItemVO
         for (Shop shop: shopList) {
+            ShopItemVO shopItemVO = new ShopItemVO();
             BeanUtils.copyProperties(shop, shopItemVO);
             shopItemVO.setDistance(DistanceUtil.getDistance(longitude,latitude, //设置店铺距离
                     shop.getShopLongitude(),shop.getShopLatitude()));
-            shopListVO.getLocalList().add(shopItemVO); //添加店铺数据
+            shopItemVOS.add(shopItemVO); //添加店铺数据
         }
+        shopListVO.setLocalList(shopItemVOS);
         return ResponseResult.success(shopListVO);
     }
 

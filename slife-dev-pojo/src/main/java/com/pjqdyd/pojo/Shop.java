@@ -64,8 +64,8 @@ public class Shop {
     /**
      * 店铺评分,默认5分
      */
-    @Column(columnDefinition = "tinyint default 5 COMMENT '店铺评分'")
-    private Integer rate = 5;
+    @Column(columnDefinition = "varchar(4) default 5.0 COMMENT '店铺评分'")
+    private String rate = "5.0";
 
     /**
      * 店铺的状态

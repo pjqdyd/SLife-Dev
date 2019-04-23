@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -88,8 +89,8 @@ public class ShopDetail {
     /**
      * 店铺评分,默认5分
      */
-    @Column(columnDefinition = "tinyint default 5 COMMENT '店铺评分'")
-    private Integer rate = 5;
+    @Column(columnDefinition = "varchar(4) default 5.0 COMMENT '店铺评分'")
+    private String rate = "5.0";
 
 
     /**
@@ -127,6 +128,7 @@ public class ShopDetail {
     /**
      * 店铺的状态
      */
+    @Size(min = 0, max = 2)
     @Column(columnDefinition = "tinyint default 0 COMMENT '店铺状态 0审核中, 1审核通过, 2不通过'")
     private Integer shopStatus = 0;
 

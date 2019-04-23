@@ -1,5 +1,6 @@
 package com.pjqdyd.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**   
@@ -39,7 +40,7 @@ public class ShopItemVO {
     /**
      * 店铺评分,默认5分
      */
-    private Integer rate = 5;
+    private String rate = "5.0";
 
     /**
      * 店铺距离

@@ -1,6 +1,5 @@
 package com.pjqdyd.pojo.vo;
 
-import com.pjqdyd.pojo.Shop;
 import lombok.Data;
 
 import java.util.List;
@@ -31,6 +30,6 @@ public class ShopListVO {
     /**
      * 附近店铺列表
      */
-    private List<Shop> localList;
+    private List<ShopItemVO> localList;
 
 }

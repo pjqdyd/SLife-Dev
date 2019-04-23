@@ -1,6 +1,8 @@
 package com.pjqdyd.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.pjqdyd.serialize.CustomerFloatSerialize;
 import lombok.Data;
 
 /**   
@@ -38,9 +40,10 @@ public class ShopItemVO {
     private String shopCategory;
 
     /**
-     * 店铺评分,默认5分
+     * 店铺评分,默认5.0分,使用自定义序列化,保留一位小数
      */
-    private String rate = "5.0";
+    @JsonSerialize(using = CustomerFloatSerialize.class)
+    private Float rate = 5.0F;
 
     /**
      * 店铺距离

@@ -64,8 +64,8 @@ public class Shop {
     /**
      * 店铺评分,默认5分
      */
-    @Column(columnDefinition = "varchar(4) default 5.0 COMMENT '店铺评分'")
-    private String rate = "5.0";
+    @Column(columnDefinition = "float(2,1) default 5.0 COMMENT '店铺评分'")
+    private Float rate = 5.0F;
 
     /**
      * 店铺的状态

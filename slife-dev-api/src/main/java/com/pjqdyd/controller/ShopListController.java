@@ -1,16 +1,13 @@
 package com.pjqdyd.controller;
 
 import com.pjqdyd.pojo.Shop;
-import com.pjqdyd.pojo.vo.ShopItemVO;
 import com.pjqdyd.pojo.vo.ShopListVO;
 import com.pjqdyd.result.ResponseResult;
 import com.pjqdyd.service.ShopListService;
 import com.pjqdyd.service.ShopService;
-import com.pjqdyd.utils.DistanceUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**   
@@ -70,16 +66,8 @@ public class ShopListController {
         shopListVO.setTotalPage(shopPage.getTotalPages());
 
         List<Shop> shopList = shopPage.getContent();
+        shopListVO.setLocalList(shopList);
 
-        List<ShopItemVO> shopItemVOS = new ArrayList<>(); //用来存放返回给前端的ShopItemVO
-        for (Shop shop: shopList) {
-            ShopItemVO shopItemVO = new ShopItemVO();
-            BeanUtils.copyProperties(shop, shopItemVO);
-            shopItemVO.setDistance(DistanceUtil.getDistance(longitude,latitude, //设置店铺距离
-                    shop.getShopLongitude(),shop.getShopLatitude()));
-            shopItemVOS.add(shopItemVO); //添加店铺数据
-        }
-        shopListVO.setLocalList(shopItemVOS);
         return ResponseResult.success(shopListVO);
     }
 

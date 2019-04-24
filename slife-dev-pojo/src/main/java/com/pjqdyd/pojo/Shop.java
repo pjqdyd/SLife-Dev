@@ -1,5 +1,8 @@
 package com.pjqdyd.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.pjqdyd.serialize.CustomerFloatSerialize;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -62,14 +65,16 @@ public class Shop {
     private String shopCategory;
 
     /**
-     * 店铺评分,默认5分
+     * 店铺评分,默认5分,使用自定义JSON序列化,保留一位小数
      */
+    @JsonSerialize(using = CustomerFloatSerialize.class)
     @Column(columnDefinition = "float(2,1) default 5.0 COMMENT '店铺评分'")
     private Float rate = 5.0F;
 
     /**
      * 店铺的状态
      */
+    @JsonIgnore
     @Column(columnDefinition = "tinyint default 0 COMMENT '店铺状态 0审核中, 1审核通过, 2不通过'")
     private Integer shopStatus = 0;
 }

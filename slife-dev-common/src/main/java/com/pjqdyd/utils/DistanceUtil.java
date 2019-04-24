@@ -10,7 +10,7 @@ public final class DistanceUtil {
     private static final double EARTH_RADIUS = 6378.137;
 
     /**
-     * 根据经纬度，计算两点间的距离
+     * 根据经纬度，计算两点间的距离 (----已弃用, 由前端来计算距离-----)
      *
      * @param longitude1 第一个点的经度
      * @param latitude1  第一个点的纬度

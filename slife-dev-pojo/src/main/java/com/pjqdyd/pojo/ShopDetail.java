@@ -128,7 +128,6 @@ public class ShopDetail {
     /**
      * 店铺的状态
      */
-    @Size(min = 0, max = 2)
     @Column(columnDefinition = "tinyint default 0 COMMENT '店铺状态 0审核中, 1审核通过, 2不通过'")
     private Integer shopStatus = 0;
 

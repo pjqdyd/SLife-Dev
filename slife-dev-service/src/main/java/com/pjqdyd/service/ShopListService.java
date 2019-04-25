@@ -4,6 +4,8 @@ import com.pjqdyd.pojo.Shop;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**   
  * @Description:  [店铺简单列表service接口]
  * @Author:       pjqdyd
@@ -23,5 +25,14 @@ public interface ShopListService {
      * @return
      */
     Page<Shop> findLocalShop(Double minLat, Double maxLat,  Double minLot, Double maxLot,Integer shopStatus ,Pageable pageable);
+
+    /**
+     * 根据分类名模糊查询附近的店铺
+     * @param lat 用户的纬度
+     * @param lot 用户的经度
+     * @param category 分类名
+     * @return
+     */
+    List<Shop> findAllLocalAndLikeCategory(Double lat, Double lot, String category);
 
 }

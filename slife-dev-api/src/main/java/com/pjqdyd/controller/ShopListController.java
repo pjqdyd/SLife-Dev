@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 
 /**   
  * @Description:  [店铺列表controller层]
@@ -46,13 +47,14 @@ public class ShopListController {
     @ApiOperation(value = "查询附近的商铺", tags = "主页查询附近商铺")
     @GetMapping("/localShop")
     public ResponseResult getLocalShopList(@RequestParam("latitude") Double latitude,
-                                           @RequestParam("longitude") Double longitude,
-                                           @RequestParam("page") Integer page,
-                                           @RequestParam(value = "size", defaultValue = "5") Integer size){
+        @RequestParam("longitude") Double longitude,
+        @RequestParam("page") Integer page,
+        @RequestParam(value = "size", defaultValue = "5") Integer size){
 
-        Sort sort = new Sort(Sort.Direction.DESC, "rate"); //按评分高底排序
-        Pageable pageable = PageRequest.of(page-1, size, sort); //分页查询第page-1页的5条数据
+        //Sort sort = new Sort(Sort.Direction.DESC, "rate"); //按评分高底排序
+        //Pageable pageable = PageRequest.of(page-1, size, sort); //分页查询第page-1页的5条数据
 
+        Pageable pageable = PageRequest.of(page-1, size);
         //查询附近0.1经纬度度内, 也就是11.1公里范围内的店铺
         Page<Shop> shopPage = shopListService.findLocalShop(
                 latitude-0.1,latitude+0.1,

@@ -10,7 +10,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @EnableSwagger2
 @SpringBootApplication
-@EnableAutoConfiguration
 public class SLifeApplication {
 
     public static void main(String[] args){

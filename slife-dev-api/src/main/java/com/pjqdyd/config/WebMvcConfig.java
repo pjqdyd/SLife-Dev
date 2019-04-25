@@ -26,7 +26,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         //  "/**"表示项目的所有路径下可访问
         //  表示把本地的file:盘符:/..路径映射到项目的路径下可访问
         registry.addResourceHandler("/**")
-                .addResourceLocations("file:C:/Users/Z2/Desktop/slife-file/")
+                .addResourceLocations("file:" + fileSpace + "/")
                 .addResourceLocations("classpath:/META-INF/resources/");
 
         //假如swagger-ui的html界面提示mapping映射找不到

@@ -7,6 +7,7 @@ import com.pjqdyd.exception.SLifeException;
 import com.pjqdyd.pojo.Shop;
 import com.pjqdyd.pojo.ShopDetail;
 import com.pjqdyd.pojo.ShopImage;
+import com.pjqdyd.pojo.vo.ShopDetailVO;
 import com.pjqdyd.service.ShopService;
 import com.pjqdyd.utils.DeleteFileUtil;
 import com.pjqdyd.utils.MultipartFileUtil;
@@ -40,6 +41,9 @@ public class ShopServiceImpl implements ShopService {
     @Autowired
     private ShopRepository shopRepository;
 
+    /**
+     * 文件命名空间
+     */
     @Value("${common.slife.fileSpace}")
     private String fileSpace;
 
@@ -133,7 +137,15 @@ public class ShopServiceImpl implements ShopService {
         shopImageRepository.deleteAllByShopId(shopId);
     }
 
-
+    /**
+     * 根据店铺id查询所有的图片
+     * @param shopId
+     * @return
+     */
+    @Override
+    public List<ShopImage> findAllImageByShopId(String shopId) {
+        return shopImageRepository.findAllByShopId(shopId);
+    }
 
     /**
      * 根据申请者id查询店铺是否已经存在
@@ -163,5 +175,15 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public String findShopIdByApplyerId(String applyerId) {
         return shopDetailRepository.findShopIdByApplyerId(applyerId);
+    }
+
+    /**
+     * 根据店铺id查询店铺详情VO对象
+     * @param shopId
+     * @return
+     */
+    @Override
+    public ShopDetailVO findShopDetailVOByShopId(String shopId) {
+        return shopDetailRepository.findShopDetailVOByShopId(shopId);
     }
 }

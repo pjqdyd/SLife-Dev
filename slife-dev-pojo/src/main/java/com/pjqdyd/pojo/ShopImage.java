@@ -1,5 +1,6 @@
 package com.pjqdyd.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,11 +20,21 @@ public class ShopImage {
      * 图片id 自增
      */
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * 图片所属店铺的id
+     */
+    @JsonIgnore
     @Column(columnDefinition = "varchar(128) not null COMMENT '图片所属的店铺id'")
     private String shopId;
+
+    /**
+     * 图片路径
+     */
+    private String imageUrl;
 
     /**
      * 多对一,指明要映射的实体类
@@ -31,11 +42,7 @@ public class ShopImage {
      */
     //@ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(name = "shop_detail_id", referencedColumnName = "shopId")
-    //已弃用关联
+    //已弃用关联(过于复杂)
     //private ShopDetail shopDetail;
 
-    /**
-     * 图片路径
-     */
-    private String imageUrl;
 }

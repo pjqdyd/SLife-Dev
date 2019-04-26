@@ -10,16 +10,33 @@ import com.pjqdyd.pojo.User;
 
 public interface UserService {
 
-    //通过openId查询用户是否存在
+    /**
+     * 通过openId查询用户是否存在
+     * @param openId
+     * @return
+     */
     Boolean isUserExist(String openId);
 
-    //通过openId查询用户信息
+    /**
+     * 通过openId查询用户信息
+     * @param openId
+     * @return
+     */
     User findUserByOpenId(String openId);
 
-    //保存用户
+    /**
+     * 保存用户
+     * @param user
+     * @return
+     */
     User saveUser(User user);
 
-    //通过openId和access_token来验证和保存用户信息
+    /**
+     * 通过openId和access_token来验证和保存用户信息
+     * @param openId
+     * @param access_token
+     * @return
+     */
     User verifyUserInfoAndSaveInfo(String openId, String access_token);
 
 }

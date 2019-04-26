@@ -25,6 +25,13 @@ public interface UserService {
     User findUserByOpenId(String openId);
 
     /**
+     * 通过用户id来查询用户信息
+     * @param userId
+     * @return
+     */
+    User findUserByUserId(String userId);
+
+    /**
      * 保存用户
      * @param user
      * @return

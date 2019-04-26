@@ -71,6 +71,16 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 通过用户id来查询用户信息
+     * @param userId
+     * @return
+     */
+    @Override
+    public User findUserByUserId(String userId) {
+        return userRepository.findByUserId(userId);
+    }
+
+    /**
      * 验证用户信息和保存用户信息
      *
      * @param openId

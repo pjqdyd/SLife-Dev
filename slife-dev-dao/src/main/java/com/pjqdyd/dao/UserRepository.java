@@ -21,4 +21,11 @@ public interface UserRepository extends JpaRepository<User, String> {
      */
     User findByOpenId(String openId);
 
+    /**
+     * 通过用户id查询用户信息
+     * @param userId
+     * @return
+     */
+    User findByUserId(String userId);
+
 }

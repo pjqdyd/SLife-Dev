@@ -6,17 +6,15 @@ import com.pjqdyd.pojo.User;
 import com.pjqdyd.pojo.vo.UserVO;
 import com.pjqdyd.result.ResponseResult;
 import com.pjqdyd.service.UserService;
+import com.pjqdyd.utils.CheckParamIsBlank;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -90,6 +88,34 @@ public class UserContorller {
                     bindingResult.getFieldError().getDefaultMessage());
         }
         return ResponseResult.success(userService.saveUser(user));
+    }
+
+    /**
+     * 根据applyerId查询店主信息
+     * @param userId
+     * @param applyerId
+     * @return
+     */
+    @ApiOperation(value = "查询用户信息", tags = "根据applyerId查询店主信息")
+    @GetMapping("/userInfo")
+    public ResponseResult findUserByUserId(@RequestParam("userId") String userId,
+                                           @RequestParam("applyerId") String applyerId){
+
+        if (StringUtils.isBlank(applyerId)){
+            log.error("获取店主信息, 店主id不能为空 applyerId = {}, 用户userId = {}", applyerId, userId);
+            return ResponseResult.error();
+        }
+
+        User user = userService.findUserByUserId(applyerId); //查询店主信息
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+
+        if (!StringUtils.isBlank(userId)){
+            //TODO 查询userId是否关注applyerId
+            //userVO.setIsFollow();
+        }
+
+        return ResponseResult.success(userVO);
     }
 
 }

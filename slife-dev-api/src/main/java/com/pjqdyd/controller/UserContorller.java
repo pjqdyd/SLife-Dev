@@ -7,6 +7,7 @@ import com.pjqdyd.pojo.vo.UserVO;
 import com.pjqdyd.result.ResponseResult;
 import com.pjqdyd.service.UserService;
 import com.pjqdyd.utils.CheckParamIsBlank;
+import com.pjqdyd.utils.MultipartFileUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *    
@@ -57,18 +61,18 @@ public class UserContorller {
         if (userService.isUserExist(openId)) {//1.验证用户的openId是否已经存在数据库
             //获取数据库的用户信息,返回给前端
             user = userService.findUserByOpenId(openId);
-        }else {//验证和保存新用户信息
+        } else {//验证和保存新用户信息
             user = userService.verifyUserInfoAndSaveInfo(openId, access_token);
         }
-        if (user != null){
+        if (user != null) {
             UserVO userVO = new UserVO();
             BeanUtils.copyProperties(user, userVO);
             return ResponseResult.success(userVO);
         }
 
-        //return ResponseResult.error(ResultEnum.LOGIN_ERROR.getCode(), "登录失败"); //生产环境
+        return ResponseResult.error(ResultEnum.LOGIN_ERROR.getCode(), "登录失败"); //生产环境
         //测试环境先模拟返回正确的用户数据
-        return ResponseResult.success(userService.findUserByOpenId("1234567890"));
+        //return ResponseResult.success(userService.findUserByOpenId("1234567890"));
     }
 
     /**
@@ -91,29 +95,63 @@ public class UserContorller {
     }
 
     /**
-     * 根据applyerId查询店主信息
-     * @param userId
-     * @param applyerId
+     * 根据id查询店主/顾客信息
+     *
+     * @param userId //用户id
+     * @param id     要查询的店主/顾客信息
      * @return
      */
-    @ApiOperation(value = "查询用户信息", tags = "根据applyerId查询店主信息")
+    @ApiOperation(value = "查询用户信息", tags = "根据id查询店主(或查询顾客信息")
     @GetMapping("/userInfo")
-    public ResponseResult findUserByUserId(@RequestParam("userId") String userId,
-                                           @RequestParam("applyerId") String applyerId){
+    public ResponseResult findUserById(@RequestParam(value = "userId", required = false) String userId,
+                                       @RequestParam("id") String id) {
 
-        if (StringUtils.isBlank(applyerId)){
-            log.error("获取店主信息, 店主id不能为空 applyerId = {}, 用户userId = {}", applyerId, userId);
+        if (StringUtils.isBlank(id)) {
+            log.error("获取店主/顾客信息, 店主/顾客id不能为空 id = {}, 用户userId = {}", id, userId);
             return ResponseResult.error();
         }
 
-        User user = userService.findUserByUserId(applyerId); //查询店主信息
+        User user = userService.findUserByUserId(id); //查询店主/顾客信息
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
 
-        if (!StringUtils.isBlank(userId)){
+        if (!StringUtils.isBlank(userId)) {
             //TODO 查询userId是否关注applyerId
             //userVO.setIsFollow();
         }
+
+        return ResponseResult.success(userVO);
+    }
+
+
+    /**
+     * 用户更新用户信息的接口
+     *
+     * @param file     新头像
+     * @param userId   用户Id
+     * @param nickname 新昵称
+     * @param sex      性别
+     * @return
+     */
+    @ApiOperation(value = "更新用户信息", tags = "用户更新信息")
+    @PostMapping("/update")
+    public ResponseResult update(@RequestParam("file") MultipartFile file,
+                                 String userId,
+                                 String nickname,
+                                 Integer sex) {
+
+        if (StringUtils.isBlank(userId)) {
+            log.error("修改用户信息, 用户Id不能为空 userId = {}", userId);
+            return ResponseResult.error(ResultEnum.PARAM_ERROR.getCode(), "参数用户id不能为空");
+        }
+
+        List<MultipartFile> files = new ArrayList<>();  //将头像文件存入数组中,便于调用工具类存储
+        files.add(file);
+
+        //更新用户信息
+        User user = userService.updateUserInfo(files, userId, nickname, sex);
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
 
         return ResponseResult.success(userVO);
     }

@@ -1,6 +1,10 @@
 package com.pjqdyd.service;
 
 import com.pjqdyd.pojo.User;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * @Description:  [用户的Service接口]
@@ -45,5 +49,15 @@ public interface UserService {
      * @return
      */
     User verifyUserInfoAndSaveInfo(String openId, String access_token);
+
+    /**
+     * 用户更新用户信息
+     * @param files 新头像
+     * @param userId 用户id
+     * @param nickname 昵称
+     * @param sex 性别
+     * @return
+     */
+    User updateUserInfo(List<MultipartFile> files, String userId, String nickname, Integer sex);
 
 }

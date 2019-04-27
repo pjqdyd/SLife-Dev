@@ -4,13 +4,17 @@ import com.pjqdyd.dao.UserRepository;
 import com.pjqdyd.pojo.User;
 import com.pjqdyd.service.UserService;
 import com.pjqdyd.utils.DownloadResource;
+import com.pjqdyd.utils.MultipartFileUtil;
 import com.pjqdyd.utils.UniqueId;
 import com.pjqdyd.utils.VerifyUserOpenId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -88,6 +92,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
+    @Transactional
     public User verifyUserInfoAndSaveInfo(String openId, String access_token) {
 
         Map<String, String> paramsMap = new HashMap<>();
@@ -119,5 +124,34 @@ public class UserServiceImpl implements UserService {
             return userRepository.save(user);
         }
         return null;
+    }
+
+    /**
+     * 用户更新用户信息
+     * @param files 新头像
+     * @param userId 用户id
+     * @param nickname 昵称
+     * @param sex 性别
+     * @return
+     */
+    @Override
+    @Transactional
+    public User updateUserInfo(List<MultipartFile> files, String userId, String nickname, Integer sex) {
+
+        User user = userRepository.findByUserId(userId);
+        if (user == null){
+            return null;
+        }
+        user.setNickname(nickname);
+        user.setSex(sex);
+
+
+        String filePath = "/user/" + userId + "/faceImage"; //头像保存的相对路径
+        //保存新头像图片到本地, saveFilePathMap保存后图片相对路径Map集合(key: "图片名", value: "图片相对路径")
+        Map<String, String> saveFilePathMap = MultipartFileUtil.saveFileToLocal(files, fileSpace, filePath);
+
+        user.setFaceImage(saveFilePathMap.get("file")); //根据图片名file 拿到图片保存的相对路径
+
+        return userRepository.save(user); //更新用户信息
     }
 }

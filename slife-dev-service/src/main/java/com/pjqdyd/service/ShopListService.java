@@ -33,6 +33,6 @@ public interface ShopListService {
      * @param category 分类名
      * @return
      */
-    List<Shop> findAllLocalAndLikeCategory(Double lat, Double lot, String category);
+    List<Shop> findAllLocalAndLikeCategory(Double lat, Double lot, String category, Integer shopStatus);
 
 }

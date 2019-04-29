@@ -83,7 +83,7 @@ public class ShopListController {
                                                @RequestParam("category") String category) {
 
         //根据分类模糊查询附近的店铺
-        List<Shop> shopList = shopListService.findAllLocalAndLikeCategory(latitude, longitude, category);
+        List<Shop> shopList = shopListService.findAllLocalAndLikeCategory(latitude, longitude, category, 1);
 
         return ResponseResult.success(shopList);
     }

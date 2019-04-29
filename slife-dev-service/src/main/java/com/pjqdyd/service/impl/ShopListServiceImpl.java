@@ -48,10 +48,11 @@ public class ShopListServiceImpl implements ShopListService {
      * @param lat      用户的纬度
      * @param lot      用户的经度
      * @param category 分类名
+     * @param shopStatus 店铺的状态
      * @return
      */
     @Override
-    public List<Shop> findAllLocalAndLikeCategory(Double lat, Double lot, String category) {
-        return shopRepository.findAllByLocalAndLikeCategory(lat, lot, category);
+    public List<Shop> findAllLocalAndLikeCategory(Double lat, Double lot, String category, Integer shopStatus) {
+        return shopRepository.findAllByLocalAndLikeCategory(lat, lot, category, shopStatus);
     }
 }

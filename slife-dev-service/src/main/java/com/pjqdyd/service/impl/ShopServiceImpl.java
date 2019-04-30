@@ -186,4 +186,16 @@ public class ShopServiceImpl implements ShopService {
     public ShopDetailVO findShopDetailVOByShopId(String shopId) {
         return shopDetailRepository.findShopDetailVOByShopId(shopId);
     }
+
+    /**
+     * 更新店铺的评分的方法
+     * @param newScore
+     * @param shopId
+     */
+    @Transactional
+    @Override
+    public void updateShopScore(Integer newScore, String shopId) {
+        shopDetailRepository.updateShopScore(newScore, shopId);
+        shopRepository.updateShopScore(newScore, shopId);
+    }
 }

@@ -79,4 +79,11 @@ public interface ShopService {
      * @return
      */
     ShopDetailVO findShopDetailVOByShopId(String shopId);
+
+    /**
+     * 更新店铺的评分
+     * @param newScore
+     * @param shopId
+     */
+    void updateShopScore(Integer newScore, String shopId);
 }

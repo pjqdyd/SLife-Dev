@@ -55,4 +55,16 @@ public class ShopListServiceImpl implements ShopListService {
     public List<Shop> findAllLocalAndLikeCategory(Double lat, Double lot, String category, Integer shopStatus) {
         return shopRepository.findAllByLocalAndLikeCategory(lat, lot, category, shopStatus);
     }
+
+    /**
+     * 查询附近的所有店铺(不分类)
+     * @param lat 用户的纬度
+     * @param lot 用户的经度
+     * @param shopStatus 店铺的状态
+     * @return
+     */
+    @Override
+    public List<Shop> findAllLocaly(Double lat, Double lot, Integer shopStatus) {
+        return shopRepository.findAllByLocal(lat, lot, shopStatus);
+    }
 }

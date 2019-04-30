@@ -22,7 +22,7 @@ import java.util.List;
  */
 
 @Slf4j
-@Api(value = "店铺详情Controller层", tags = "查询店铺详情")
+@Api(value = "店铺详情相关接口", tags = "店铺详情Controller层")
 @CrossOrigin
 @RestController
 @RequestMapping("/slife/shopDetail")

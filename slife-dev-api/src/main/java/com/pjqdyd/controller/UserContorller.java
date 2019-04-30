@@ -6,8 +6,6 @@ import com.pjqdyd.pojo.User;
 import com.pjqdyd.pojo.vo.UserVO;
 import com.pjqdyd.result.ResponseResult;
 import com.pjqdyd.service.UserService;
-import com.pjqdyd.utils.CheckParamIsBlank;
-import com.pjqdyd.utils.MultipartFileUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

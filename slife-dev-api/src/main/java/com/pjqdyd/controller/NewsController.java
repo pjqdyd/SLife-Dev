@@ -64,7 +64,7 @@ public class NewsController {
         NewsInfo newsInfo = new NewsInfo();
         BeanUtils.copyProperties(newsInfoDTO, newsInfo);
 
-        newsInfo.setNewsId(UniqueId.getNewId("n-")); //给动态设置id
+        newsInfo.setNewsId(UniqueId.getNewIdRandom("n-")); //给动态设置随机id
 
         //保存动态信息和动态图片文件
         NewsInfo result = newsService.saveNewsInfo(newsInfo, files);

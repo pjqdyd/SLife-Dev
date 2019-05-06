@@ -9,9 +9,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Size;
+import java.util.Random;
+
 
 /**   
  * @Description:  [动态列表Controller层]
@@ -29,9 +31,7 @@ public class NewsListController {
 
     @ApiOperation(value = "最新的动态查询接口", tags = "最新附近动态")
     @GetMapping("/latestList")
-    public ResponseResult queryLatestNews(
-
-    ){
+    public ResponseResult queryLatestNews(){
         return null;
     }
 

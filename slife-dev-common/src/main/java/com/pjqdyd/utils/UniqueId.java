@@ -55,7 +55,7 @@ public class UniqueId {
         //生成前缀
         int prefix = (int) (Math.random() * 100000000);
 
-        String newId = flag + String.valueOf(prefix + suffix);
+        String newId = flag + String.valueOf(prefix) + String.valueOf(suffix);
         return newId;
     }
 }

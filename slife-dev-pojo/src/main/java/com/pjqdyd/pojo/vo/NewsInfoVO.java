@@ -56,15 +56,6 @@ public class NewsInfoVO {
      */
     private String newsCategory;
 
-    /**
-     * 动态纬度
-     */
-    private Double newsLatitude;
-
-    /**
-     * 动态经度
-     */
-    private Double newsLongitude;
 
     /**
      * 动态的点赞数
@@ -117,8 +108,6 @@ public class NewsInfoVO {
         this.faceUrl = user.getFaceImage();
         this.content = newsInfo.getContent();
         this.newsCategory = newsInfo.getNewsCategory();
-        this.newsLatitude = newsInfo.getNewsLatitude();
-        this.newsLongitude = newsInfo.getNewsLongitude();
         this.newsLikeCounts = newsInfo.getNewsLikeCounts();
         this.newsCommentCounts = newsInfo.getNewsCommentCounts();
         this.newsShopId = newsInfo.getNewsShopId();

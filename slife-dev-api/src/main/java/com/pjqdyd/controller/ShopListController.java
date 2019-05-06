@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,10 +54,11 @@ public class ShopListController {
                                            @RequestParam("page") Integer page,
                                            @RequestParam(value = "size", defaultValue = "5") Integer size) {
 
-        //Sort sort = new Sort(Sort.Direction.DESC, "rate"); //按评分高底排序
-        //Pageable pageable = PageRequest.of(page-1, size, sort); //分页查询第page-1页的5条数据
+        Sort sort = new Sort(Sort.Direction.DESC, "rate"); //按评分高底排序
+        Pageable pageable = PageRequest.of(page-1, size, sort); //分页查询第page-1页的5条数据
 
-        Pageable pageable = PageRequest.of(page - 1, size);
+        //Pageable pageable = PageRequest.of(page - 1, size);
+
         //查询附近0.1经纬度度内, 也就是11.1公里范围内的店铺
         Page<Shop> shopPage = shopListService.findLocalShop(
                 latitude - 0.1, latitude + 0.1,

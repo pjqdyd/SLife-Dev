@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Random;
 
 
 /**   
@@ -29,10 +28,38 @@ public class NewsListController {
     @Autowired
     private NewsListService newsListService;
 
+    /**
+     * 最新动态查询接口
+     * @param latitude
+     * @param longitude
+     * @param userId
+     * @param page
+     * @param size
+     * @return
+     */
+
     @ApiOperation(value = "最新的动态查询接口", tags = "最新附近动态")
     @GetMapping("/latestList")
-    public ResponseResult queryLatestNews(){
-        return null;
+    public ResponseResult queryLatestNews(@RequestParam("latitude") Double latitude,
+                                          @RequestParam("longitude") Double longitude,
+                                          @RequestParam("userId") String userId,
+                                          @RequestParam("page") Integer page,
+                                          @RequestParam(value = "size", defaultValue = "5") Integer size){
+
+        //按时间倒序, 即最新的在前面
+        Sort sort = new Sort(Sort.Direction.DESC, "createDate");
+        Pageable pageable = PageRequest.of(page-1, size, sort);
+
+        //分页查询附近0.1经纬度度内, 也就是11.1公里范围内的动态
+        NewsListVO newsListVO = newsListService.findAllLocalNewsInfoVO(
+                latitude - 0.1, latitude + 0.1,
+                longitude - 0.1, longitude + 0.1, userId, pageable);
+
+        if (newsListVO == null){
+            return ResponseResult.error(ResultEnum.FAIL.getCode(), "未找到附近动态");
+        }
+
+        return ResponseResult.success(newsListVO);
     }
 
 
@@ -67,9 +94,36 @@ public class NewsListController {
     }
 
 
+    /**
+     * 热门的动态查询接口
+     * @param latitude
+     * @param longitude
+     * @param userId
+     * @param page
+     * @param size
+     * @return
+     */
     @ApiOperation(value = "热门的动态查询接口", tags = "热门附近动态")
     @GetMapping("/hotList")
-    public ResponseResult queryHotNews(){
-        return null;
+    public ResponseResult queryHotNews(@RequestParam("latitude") Double latitude,
+                                       @RequestParam("longitude") Double longitude,
+                                       @RequestParam("userId") String userId,
+                                       @RequestParam("page") Integer page,
+                                       @RequestParam(value = "size", defaultValue = "5") Integer size){
+
+        //按点赞数倒序, 即点赞多的在前面
+        Sort sort = new Sort(Sort.Direction.DESC, "newsLikeCounts");
+        Pageable pageable = PageRequest.of(page-1, size, sort);
+
+        //分页查询附近0.1经纬度度内, 也就是11.1公里范围内的动态
+        NewsListVO newsListVO = newsListService.findAllLocalNewsInfoVO(
+                latitude - 0.1, latitude + 0.1,
+                longitude - 0.1, longitude + 0.1, userId, pageable);
+
+        if (newsListVO == null){
+            return ResponseResult.error(ResultEnum.FAIL.getCode(), "未找到附近动态");
+        }
+
+        return ResponseResult.success(newsListVO);
     }
 }

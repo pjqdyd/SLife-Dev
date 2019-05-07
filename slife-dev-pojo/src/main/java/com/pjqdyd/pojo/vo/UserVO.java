@@ -22,6 +22,11 @@ public class UserVO {
     private String userId;
 
     /**
+     * 用户登录状态token令牌
+     */
+    private String userToken;
+
+    /**
      * 用户昵称
      */
     private String nickname;

@@ -6,6 +6,7 @@ import com.pjqdyd.pojo.User;
 import com.pjqdyd.pojo.vo.UserVO;
 import com.pjqdyd.result.ResponseResult;
 import com.pjqdyd.service.UserService;
+import com.pjqdyd.utils.RedisOperator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *    
@@ -37,6 +39,13 @@ public class UserContorller {
 
     @Autowired
     private UserService userService;
+
+    //redis的相关操作方法
+    @Autowired
+    private RedisOperator redis;
+
+    //用户的redis session的key命名前缀
+    public static final String USER_REDIS_SESSION = "user_redis_session:";
 
     /**
      * 用户qq登录验证
@@ -63,8 +72,13 @@ public class UserContorller {
             user = userService.verifyUserInfoAndSaveInfo(openId, access_token);
         }
         if (user != null) {
+            //使用redis来维持用户的登录会话状态
+            String uniqueToken = UUID.randomUUID().toString();
+            redis.set(USER_REDIS_SESSION + user.getUserId(), uniqueToken, 60*60*24*90); //token为三个月左右过期
+
             UserVO userVO = new UserVO();
             BeanUtils.copyProperties(user, userVO);
+            userVO.setUserToken(uniqueToken);
             return ResponseResult.success(userVO);
         }
 

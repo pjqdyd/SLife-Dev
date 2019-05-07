@@ -58,7 +58,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        //注册slifeApiInterceptor拦截器,并指定拦截路径下的方法
+        //注册slifeApiInterceptor拦截器,并指定拦截路径下的方法(支持统配符)
         registry.addInterceptor(sLifeApiInterceptor())
                 .addPathPatterns("/slife/news/createNews")
                 .addPathPatterns("/slife/shop/applyShop")

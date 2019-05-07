@@ -44,7 +44,7 @@ public class NewsListController {
                                           @RequestParam("longitude") Double longitude,
                                           @RequestParam("userId") String userId,
                                           @RequestParam("page") Integer page,
-                                          @RequestParam(value = "size", defaultValue = "5") Integer size){
+                                          @RequestParam(value = "size", defaultValue = "3") Integer size){
 
         //按时间倒序, 即最新的在前面
         Sort sort = new Sort(Sort.Direction.DESC, "createDate");
@@ -77,7 +77,7 @@ public class NewsListController {
                                              @RequestParam("longitude") Double longitude,
                                              @RequestParam("userId") String userId,
                                              @RequestParam("page") Integer page,
-                                             @RequestParam(value = "size", defaultValue = "5") Integer size){
+                                             @RequestParam(value = "size", defaultValue = "3") Integer size){
 
         Pageable pageable = PageRequest.of(page-1, size);
 
@@ -109,7 +109,7 @@ public class NewsListController {
                                        @RequestParam("longitude") Double longitude,
                                        @RequestParam("userId") String userId,
                                        @RequestParam("page") Integer page,
-                                       @RequestParam(value = "size", defaultValue = "5") Integer size){
+                                       @RequestParam(value = "size", defaultValue = "3") Integer size){
 
         //按点赞数倒序, 即点赞多的在前面
         Sort sort = new Sort(Sort.Direction.DESC, "newsLikeCounts");

@@ -2,6 +2,10 @@ package com.pjqdyd.dao;
 
 import com.pjqdyd.pojo.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 /**   
  * @Description:  [用户repository接口]
@@ -28,4 +32,21 @@ public interface UserRepository extends JpaRepository<User, String> {
      */
     User findByUserId(String userId);
 
+    /**
+     * 给用户添加一个赞的方法
+     * @param userId
+     */
+    @Transactional
+    @Modifying
+    @Query(value = "update tb_user set receive_like_counts=receive_like_counts+1 where user_id=:userId", nativeQuery = true)
+    void addUserAlike(@Param("userId") String userId);
+
+    /**
+     * 给用户减去一个赞的方法
+     * @param userId
+     */
+    @Transactional
+    @Modifying
+    @Query(value = "update tb_user set receive_like_counts=receive_like_counts-1 where user_id=:userId", nativeQuery = true)
+    void reduceUserAlike(@Param("userId") String userId);
 }

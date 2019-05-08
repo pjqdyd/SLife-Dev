@@ -5,16 +5,15 @@ import com.pjqdyd.pojo.dto.NewsInfoDTO;
 import com.pjqdyd.result.ResponseResult;
 import com.pjqdyd.service.NewsService;
 import com.pjqdyd.service.ShopService;
+import com.pjqdyd.service.UserLikeNewsService;
+import com.pjqdyd.utils.CheckParamIsBlank;
 import com.pjqdyd.utils.UniqueId;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
@@ -38,6 +37,9 @@ public class NewsController {
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    private UserLikeNewsService userLikeNewsService;
 
     /**
      * 发布创建动态接口
@@ -74,6 +76,48 @@ public class NewsController {
         }
 
         return ResponseResult.success(null);
+    }
+
+    /**
+     * 用户点赞动态接口
+     * @param userId
+     * @param newsId
+     * @param publisherId
+     * @return
+     */
+    @ApiOperation(value = "点赞动态接口", tags = "用户点赞动态接口")
+    @PostMapping("/userLikeNews")
+    public ResponseResult userLikeAnews(@RequestParam("userId") String userId,
+                                        @RequestParam("newsId") String newsId,
+                                        @RequestParam("publisherId") String publisherId){
+
+        if(CheckParamIsBlank.checkStrParams(userId, newsId, publisherId)){
+         return ResponseResult.error();
+        }
+
+        userLikeNewsService.userLikeAnews(userId, newsId, publisherId);
+        return ResponseResult.success("点赞成功!");
+    }
+
+    /**
+     * 用户取消点赞动态接口
+     * @param userId
+     * @param newsId
+     * @param publisherId
+     * @return
+     */
+    @ApiOperation(value = "取消点赞动态接口", tags = "用户取消点赞动态接口")
+    @PostMapping("/userCancelLikeNews")
+    public ResponseResult userCancelLikeAnews(@RequestParam("userId") String userId,
+                                        @RequestParam("newsId") String newsId,
+                                        @RequestParam("publisherId") String publisherId){
+
+        if(CheckParamIsBlank.checkStrParams(userId, newsId, publisherId)){
+            return ResponseResult.error();
+        }
+
+        userLikeNewsService.userCancelLikeAnews(userId, newsId, publisherId);
+        return ResponseResult.success("取消点赞成功!");
     }
 
 }

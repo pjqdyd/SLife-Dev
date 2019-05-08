@@ -2,6 +2,7 @@ package com.pjqdyd.service.impl;
 
 import com.pjqdyd.dao.NewsImageRepository;
 import com.pjqdyd.dao.NewsInfoRepository;
+import com.pjqdyd.dao.UserLikeNewsRepository;
 import com.pjqdyd.pojo.NewsImage;
 import com.pjqdyd.pojo.vo.NewsInfoVO;
 import com.pjqdyd.pojo.vo.NewsListVO;
@@ -29,6 +30,9 @@ public class NewsListServiceImpl implements NewsListService {
 
     @Autowired
     private NewsImageRepository newsImageRepository;
+
+    @Autowired
+    private UserLikeNewsRepository userLikeNewsRepository;
 
     /**
      * 查询附近的动态
@@ -104,8 +108,10 @@ public class NewsListServiceImpl implements NewsListService {
         for (NewsInfoVO newsInfoVO: newsInfoVOList) { //遍历每一个动态VO对象
 
             if(StringUtils.isNotBlank(userId)){ //如果用户id不为空
-                //TODO 查询用户是否给该动态点赞
-                //newsInfoVO.setIsLike();
+                //判断用户是否给该动态点赞
+                if (userLikeNewsRepository.existsByUserIdEqualsAndNewsIdEquals(userId, newsInfoVO.getNewsId())){
+                  newsInfoVO.setIsLike(1);
+                }
             }
             //设置该动态的图片
             List<NewsImage> newsImages = newsImageRepository.findAllByNewsId(newsInfoVO.getNewsId());
@@ -113,7 +119,6 @@ public class NewsListServiceImpl implements NewsListService {
         }
 
         newsListVO.setNewsList(newsInfoVOList); //设置动态列表数据
-
         return newsListVO;
     }
 }

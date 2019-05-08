@@ -5,8 +5,10 @@ import com.pjqdyd.pojo.vo.NewsInfoVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 /**   
  * @Description:  [动态repository接口]
@@ -57,4 +59,22 @@ public interface NewsInfoRepository extends JpaRepository<NewsInfo, String> {
             "from NewsInfo newsInfo, User user " +
             "where newsInfo.publisherId=:publisherId and user.userId=:publisherId")
     Page<NewsInfoVO> findAllByPublisherId(@Param("publisherId") String publisherId, Pageable pageable);
+
+    /**
+     * 给动态添加一个赞
+     * @param newsId
+     */
+    @Transactional
+    @Modifying
+    @Query(value = "update tb_news_info set news_like_counts=news_like_counts+1 where news_id=:newsId", nativeQuery = true)
+    void addLikeToNews(@Param("newsId") String newsId);
+
+    /**
+     * 给动态减少一个赞
+     * @param newsId
+     */
+    @Transactional
+    @Modifying
+    @Query(value = "update tb_news_info set news_like_counts=news_like_counts-1 where news_id=:newsId", nativeQuery = true)
+    void reduceLikeToNews(@Param("newsId") String newsId);
 }

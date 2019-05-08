@@ -42,4 +42,13 @@ public interface NewsListService {
      */
     NewsListVO findAllNewsByPublisherId(String publisherId, String userId, Pageable pageable);
 
+    /**
+     * 通过好友id,查询好友已点赞的动态
+     * @param friendId
+     * @param userId
+     * @param pageable
+     * @return
+     */
+    NewsListVO findAllLikeNewsByFriendId(String friendId, String userId, Pageable pageable);
+
 }

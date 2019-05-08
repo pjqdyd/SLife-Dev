@@ -61,7 +61,6 @@ public class NewsListController {
         if (newsListVO == null) {
             return ResponseResult.error(ResultEnum.FAIL.getCode(), "未找到附近动态");
         }
-
         return ResponseResult.success(newsListVO);
     }
 
@@ -93,7 +92,6 @@ public class NewsListController {
         if (newsListVO == null) {
             return ResponseResult.error(ResultEnum.FAIL.getCode(), "未找到附近动态");
         }
-
         return ResponseResult.success(newsListVO);
     }
 
@@ -128,7 +126,6 @@ public class NewsListController {
         if (newsListVO == null) {
             return ResponseResult.error(ResultEnum.FAIL.getCode(), "未找到附近动态");
         }
-
         return ResponseResult.success(newsListVO);
     }
 
@@ -150,7 +147,6 @@ public class NewsListController {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         NewsListVO newsListVO = newsListService.findAllNewsByNewsShopId(newsShopId, userId, pageable);
-
         if (newsListVO == null) {
             return ResponseResult.error(ResultEnum.FAIL.getCode(), "未找到店铺有关的动态");
         }
@@ -175,13 +171,35 @@ public class NewsListController {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         NewsListVO newsListVO = newsListService.findAllNewsByPublisherId(publisherId, userId, pageable);
-
         if (newsListVO == null) {
             return ResponseResult.error(ResultEnum.FAIL.getCode(), "未找到发布者有关的动态");
         }
         return ResponseResult.success(newsListVO);
     }
 
+    /**
+     * 查询好友点赞的动态
+     * @param friendId
+     * @param userId
+     * @param page
+     * @param size
+     * @return
+     */
+    @ApiOperation(value = "好友点赞动态查询接口", tags = "好友点赞的动态")
+    @GetMapping("/likeNewsList")
+    public ResponseResult queryLikeNewsByFriendId(@RequestParam("friendId") String friendId,
+                                                  @RequestParam("userId") String userId,
+                                                  @RequestParam("page") Integer page,
+                                                  @RequestParam(value = "size", defaultValue = "3") Integer size){
 
-    //TODO 点赞的动态
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        NewsListVO newsListVO = newsListService.findAllLikeNewsByFriendId(friendId, userId, pageable);
+        if (newsListVO == null) {
+            return ResponseResult.error(ResultEnum.FAIL.getCode(), "未找到好友点赞的动态");
+        }
+        return ResponseResult.success(newsListVO);
+    }
+
+
 }

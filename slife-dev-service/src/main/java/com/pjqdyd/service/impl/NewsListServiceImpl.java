@@ -86,6 +86,22 @@ public class NewsListServiceImpl implements NewsListService {
     }
 
     /**
+     * 通过好友id,查询好友已点赞的动态
+     * @param friendId
+     * @param userId
+     * @param pageable
+     * @return
+     */
+    @Override
+    public NewsListVO findAllLikeNewsByFriendId(String friendId, String userId, Pageable pageable) {
+
+        //查询好友已点赞的动态
+        Page<NewsInfoVO> newsInfoVOPage = newsInfoRepository.findAllLikeNewsByfriendId(friendId, pageable);
+
+        return newsInfoVOPageToNewsListVO(newsInfoVOPage, userId, pageable.getPageNumber());
+    }
+
+    /**
      * 封装将动态VO的page对象转换为NewsListVO对象, 便于返回给前端
      * @param newsInfoVOPage
      * @param userId

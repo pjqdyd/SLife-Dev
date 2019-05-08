@@ -43,6 +43,15 @@ public interface ShopDetailRepository extends JpaRepository<ShopDetail, String> 
     ShopDetailVO findShopDetailVOByShopId(@Param("shopId") String shopId);
 
     /**
+     * 根据店主id查询店铺详情信息VO,用于返回给前端
+     * @return
+     */
+    @Query(value = "select new com.pjqdyd.pojo.vo.ShopDetailVO(sd, u.nickname ,u.faceImage) " +
+            "from ShopDetail sd, User u " +
+            "where sd.applyerId=:shoperId and u.userId=:shoperId")
+    ShopDetailVO findShopDetailVOByShoperId(@Param("shoperId") String shoperId);
+
+    /**
      * 更新店铺的评分
      * @param newScore 用户给店铺的评分
      * @param shopId 店铺Id

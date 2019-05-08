@@ -60,6 +60,21 @@ public interface NewsInfoRepository extends JpaRepository<NewsInfo, String> {
             "where newsInfo.publisherId=:publisherId and user.userId=:publisherId")
     Page<NewsInfoVO> findAllByPublisherId(@Param("publisherId") String publisherId, Pageable pageable);
 
+
+    /**根据好友id查询好友点赞的动态,
+     *
+     * 先从UserLikeNews中间表根据:friendId查出该好友已点赞的动态id数据,
+     * 根据查出的已点赞动态id去NewsInfo表中查询动态, 最后再查动态发布者的信息
+     * @param friendId
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select new com.pjqdyd.pojo.vo.NewsInfoVO(user, newsInfo) " +
+            "from UserLikeNews ulikeNews, NewsInfo newsInfo, User user " +
+            "where ulikeNews.userId=:friendId and newsInfo.newsId=ulikeNews.newsId " +
+            "and user.userId=newsInfo.publisherId")
+    Page<NewsInfoVO> findAllLikeNewsByfriendId(@Param("friendId") String friendId, Pageable pageable);
+
     /**
      * 给动态添加一个赞
      * @param newsId

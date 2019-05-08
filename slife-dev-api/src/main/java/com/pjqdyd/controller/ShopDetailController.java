@@ -1,7 +1,5 @@
 package com.pjqdyd.controller;
 
-import com.pjqdyd.enums.ResultEnum;
-import com.pjqdyd.pojo.Shop;
 import com.pjqdyd.pojo.ShopImage;
 import com.pjqdyd.pojo.vo.ShopDetailVO;
 import com.pjqdyd.result.ResponseResult;
@@ -54,6 +52,34 @@ public class ShopDetailController {
 
         //查询并设置店铺的图片
         List<ShopImage> shopImageList = shopService.findAllImageByShopId(shopId);
+        shopDetailVO.setShopImageList(shopImageList);
+
+        return ResponseResult.success(shopDetailVO);
+    }
+
+    /**
+     * 根据店主id查询店铺信息
+     * @param shoperId
+     * @return
+     */
+    @ApiOperation(value = "根据shoperId查询店铺详情信息", tags = "查询店铺详情")
+    @GetMapping("/queryShopByShoperId")
+    public ResponseResult queryShopDetailByShoperId(@RequestParam("shoperId") String shoperId){
+
+        if (StringUtils.isBlank(shoperId)){
+            log.error("参数shoperId不能为空 shopId = {}", shoperId);
+            return ResponseResult.error();
+        }
+
+        //查询店铺详情VO
+        ShopDetailVO shopDetailVO = shopService.findShopDetailVOByShoperId(shoperId);
+        if (shopDetailVO == null){
+            log.error("未找到shoperId= {} 的店铺详情 shopDetailVO = {}", shoperId, shopDetailVO);
+            return ResponseResult.error();
+        }
+
+        //查询并设置店铺的图片
+        List<ShopImage> shopImageList = shopService.findAllImageByShopId(shopDetailVO.getShopId());
         shopDetailVO.setShopImageList(shopImageList);
 
         return ResponseResult.success(shopDetailVO);

@@ -35,4 +35,26 @@ public interface NewsInfoRepository extends JpaRepository<NewsInfo, String> {
                                           @Param("minLot") Double minLot,
                                           @Param("maxLot") Double maxLot, Pageable pageable);
 
+    /**
+     * 根据店铺id查询与该店铺有关的动态
+     * @param newsShopId
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select new com.pjqdyd.pojo.vo.NewsInfoVO(user, newsInfo) " +
+            "from NewsInfo newsInfo, User user " +
+            "where newsInfo.newsShopId=:newsShopId and newsInfo.publisherId=user.userId")
+    Page<NewsInfoVO> findAllByNewsShopId(@Param("newsShopId") String newsShopId, Pageable pageable);
+
+
+    /**
+     * 根据发布者id查询动态
+     * @param publisherId
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select new com.pjqdyd.pojo.vo.NewsInfoVO(user, newsInfo) " +
+            "from NewsInfo newsInfo, User user " +
+            "where newsInfo.publisherId=:publisherId and user.userId=:publisherId")
+    Page<NewsInfoVO> findAllByPublisherId(@Param("publisherId") String publisherId, Pageable pageable);
 }

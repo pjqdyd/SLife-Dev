@@ -24,4 +24,22 @@ public interface NewsListService {
      */
     NewsListVO findAllLocalNewsInfoVO(Double minLat, Double maxLat, Double minLot, Double maxLot, String userId, Pageable pageable);
 
+    /**
+     * 通过店铺id查询有关的动态
+     * @param newsShopId
+     * @param pageable
+     * @param userId
+     * @return
+     */
+    NewsListVO findAllNewsByNewsShopId(String newsShopId, String userId, Pageable pageable);
+
+    /**
+     * 通过发布者id查询动态
+     * @param publisherId
+     * @param pageable
+     * @param userId
+     * @return
+     */
+    NewsListVO findAllNewsByPublisherId(String publisherId, String userId, Pageable pageable);
+
 }

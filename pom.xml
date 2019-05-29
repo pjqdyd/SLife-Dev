@@ -9,9 +9,16 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>生活街APP后端</name>
+    <name>Slife-dev</name>
+    <description>slife-dev-back-end</description>
 
-    <description>生活街后端项目</description>
+    <modules>
+        <module>slife-dev-common</module>
+        <module>slife-dev-pojo</module>
+        <module>slife-dev-dao</module>
+        <module>slife-dev-service</module>
+        <module>slife-dev-api</module>
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -20,14 +27,6 @@
         <relativePath/>
     </parent>
 
-    <modules>
-        <module>slife-dev-common</module>
-        <module>slife-dev-pojo</module>
-        <module>slife-dev-dao</module>
-        <module>slife-dev-api</module>
-        <module>slife-dev-service</module>
-    </modules>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -35,14 +34,4 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

@@ -188,6 +188,16 @@ public class ShopServiceImpl implements ShopService {
     }
 
     /**
+     * 根据店主id查询店铺详情VO对象
+     * @param shoperId
+     * @return
+     */
+    @Override
+    public ShopDetailVO findShopDetailVOByShoperId(String shoperId) {
+        return shopDetailRepository.findShopDetailVOByShoperId(shoperId);
+    }
+
+    /**
      * 更新店铺的评分的方法
      * @param newScore
      * @param shopId

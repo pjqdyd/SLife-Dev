@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 /**   
  * @Description:  [店铺详情repository接口]
@@ -41,6 +41,15 @@ public interface ShopDetailRepository extends JpaRepository<ShopDetail, String> 
             "from ShopDetail sd, User u " +
             "where sd.shopId=:shopId and sd.applyerId=u.userId")
     ShopDetailVO findShopDetailVOByShopId(@Param("shopId") String shopId);
+
+    /**
+     * 根据店主id查询店铺详情信息VO,用于返回给前端
+     * @return
+     */
+    @Query(value = "select new com.pjqdyd.pojo.vo.ShopDetailVO(sd, u.nickname ,u.faceImage) " +
+            "from ShopDetail sd, User u " +
+            "where sd.applyerId=:shoperId and u.userId=:shoperId")
+    ShopDetailVO findShopDetailVOByShoperId(@Param("shoperId") String shoperId);
 
     /**
      * 更新店铺的评分

@@ -81,6 +81,13 @@ public interface ShopService {
     ShopDetailVO findShopDetailVOByShopId(String shopId);
 
     /**
+     * 根据店主id查询店铺详情VO对象
+     * @param shoperId
+     * @return
+     */
+    ShopDetailVO findShopDetailVOByShoperId(String shoperId);
+
+    /**
      * 更新店铺的评分
      * @param newScore
      * @param shopId

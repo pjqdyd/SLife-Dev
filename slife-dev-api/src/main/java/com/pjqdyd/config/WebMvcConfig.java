@@ -1,15 +1,21 @@
 package com.pjqdyd.config;
 
+import com.pjqdyd.interceptor.SLifeApiInterceptor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-/**   
+/**
+ *    
+ *
  * @Description:  [Mvc层的相关配置]
  * @Author:       pjqdyd
  * @Version:      [v1.0.0]
- */
+ *  
+ */
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
@@ -33,6 +39,33 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         //是由于swagger生成的html文件是放在项目的classpath:/META-INF/resources下
         //重写了配置后就可能访问不到了
         //解决办法是继续加上 .addResourceLocations("classpath:/META-INF/resources/");
+
+    }
+
+    /**
+     * 将web拦截器的实例对象作为bean注册
+     */
+    @Bean
+    public SLifeApiInterceptor sLifeApiInterceptor() {
+        return new SLifeApiInterceptor();
+    }
+
+    /**
+     * 拦截器覆盖注册配置
+     *
+     * @param registry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+
+        //注册slifeApiInterceptor拦截器,并指定拦截路径下的方法(支持统配符)
+        registry.addInterceptor(sLifeApiInterceptor())
+                .addPathPatterns("/slife/news/**")
+                .addPathPatterns("/slife/shop/applyShop")
+                .addPathPatterns("/slife/user/save")
+                .addPathPatterns("/slife/user/update");
+
+        super.addInterceptors(registry);
 
     }
 

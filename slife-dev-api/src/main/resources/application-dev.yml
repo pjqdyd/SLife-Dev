@@ -55,7 +55,7 @@ common:
     #QQ验证用户信息的官方接口api, openid, access_token为前端用户传入, oauth_consumer_key即为QQ开放平台申请的appId,
     #参考QQ官方文档: http://wiki.connect.qq.com/get_user_info
     qqVerifyUrl: https://graph.qq.com/user/get_user_info?openid={openid}&access_token={access_token}&oauth_consumer_key={oauth_consumer_key}
-    qqAppId: 101556267 #QQ开放平台申请的appId,用于验证获取用户信息权限
+    qqAppId: 123456123456 #QQ开放平台申请的appId,用于验证获取用户信息权限
 
     #静态资源文件在本地的命名空间
     fileSpace: C:/Users/Z2/Desktop/slife-file

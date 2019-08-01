@@ -2,5 +2,9 @@
 
 (项目初始化...)
 
-(注意: Uniapp-Slife前端代码仓库已设为私有(本人已弃坑), 各位可以去找别人Fork的版本, 这个是Uniapp-Slife的dev分支的后端, 接口大部分已写完)
+注意:
+
+   1. Uniapp-Slife前端代码仓库已设为私有(本人已弃坑), 各位可以去找别人Fork的版本([比较新的版本](https://github.com/hdulqs/UniApp-SLife)),
+
+   2. 本仓库是Uniapp-Slife的dev分支的后端, 接口大部分已写完)
 
